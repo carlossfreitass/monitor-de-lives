@@ -1,0 +1,227 @@
+{
+  "version": "1.0.0",
+  "season": "Brasileirao Serie A 2026",
+  "updated_at": "2026-04-17",
+  "gift_map": [
+    {
+      "position": 1,
+      "entity_id": 1,
+      "entity_name": "Palmeiras",
+      "slug": "palmeiras",
+      "color": "#006437",
+      "tiktok_gift_id": 7934,
+      "gift_name": "Heart Me",
+      "gift_icon_url": "https://i.ibb.co/20Lw7LLR/f82b75d67c3e4553d278404babdf91e2.webp",
+      "point_value": 1
+    },
+    {
+      "position": 2,
+      "entity_id": 2,
+      "entity_name": "Flamengo",
+      "slug": "flamengo",
+      "color": "#E8001A",
+      "tiktok_gift_id": 5655,
+      "gift_name": "Rose",
+      "gift_icon_url": "https://i.ibb.co/rGrfc0j5/cf6a40558018965a8171cf5a575dd9de.png",
+      "point_value": 1
+    },
+    {
+      "position": 3,
+      "entity_id": 3,
+      "entity_name": "São Paulo",
+      "slug": "sao-paulo",
+      "color": "#CC0000",
+      "tiktok_gift_id": 8286,
+      "gift_name": "GG",
+      "gift_icon_url": "https://i.ibb.co/dw5JyTWs/26dd80bd9499dbed22cd6f1ac6ef6fd1.webp",
+      "point_value": 1
+    },
+    {
+      "position": 4,
+      "entity_id": 4,
+      "entity_name": "Fluminense",
+      "slug": "fluminense",
+      "color": "#83001E",
+      "tiktok_gift_id": 15232,
+      "gift_name": "You're awesome",
+      "gift_icon_url": "https://i.ibb.co/pBSTgYGz/9fab14e0441db1950dd8dedbb9a8dd17.webp",
+      "point_value": 1
+    },
+    {
+      "position": 5,
+      "entity_id": 5,
+      "entity_name": "Bahia",
+      "slug": "bahia",
+      "color": "#004B8D",
+      "tiktok_gift_id": 5487,
+      "gift_name": "Finger Heart",
+      "gift_icon_url": "https://i.ibb.co/JFbWJzWq/2b2d66c2f9767fc8332ee1b5ba0c1057.png",
+      "point_value": 1
+    },
+    {
+      "position": 6,
+      "entity_id": 6,
+      "entity_name": "Athletico-PR",
+      "slug": "athletico-pr",
+      "color": "#CC0000",
+      "tiktok_gift_id": 19441,
+      "gift_name": "Freestyle",
+      "gift_icon_url": "https://i.ibb.co/GQ0XbNTT/3d39c9a4674e1083790fe11b9240c9b0.webp",
+      "point_value": 1
+    },
+    {
+      "position": 7,
+      "entity_id": 7,
+      "entity_name": "Coritiba",
+      "slug": "coritiba",
+      "color": "#008041",
+      "tiktok_gift_id": 5480,
+      "gift_name": "Heart",
+      "gift_icon_url": "https://i.ibb.co/7tCxn0KL/7a382fcc2e03076c9e4b089176de1395.webp",
+      "point_value": 1
+    },
+    {
+      "position": 8,
+      "entity_id": 8,
+      "entity_name": "Atlético-MG",
+      "slug": "atletico-mg",
+      "color": "#000000",
+      "tiktok_gift_id": 10602,
+      "gift_name": "White Rose",
+      "gift_icon_url": "https://i.ibb.co/Lz5cFKvV/e27a48825b293ef903e57305b18a7473.webp",
+      "point_value": 1
+    },
+    {
+      "position": 9,
+      "entity_id": 9,
+      "entity_name": "Red Bull Bragantino",
+      "slug": "bragantino",
+      "color": "#CC0000",
+      "tiktok_gift_id": 5658,
+      "gift_name": "Perfume",
+      "gift_icon_url": "https://i.ibb.co/G4xSNvyS/cd5792b709a7f56cbb2b6669a0e13c29.png",
+      "point_value": 1
+    },
+    {
+      "position": 10,
+      "entity_id": 10,
+      "entity_name": "Vitória",
+      "slug": "vitoria",
+      "color": "#E30613",
+      "tiktok_gift_id": 9947,
+      "gift_name": "Friendship",
+      "gift_icon_url": "https://i.ibb.co/LDnBqccF/384165e9235c13d54ed3bfb1e08852c4.webp",
+      "point_value": 1
+    },
+    {
+      "position": 11,
+      "entity_id": 11,
+      "entity_name": "Botafogo",
+      "slug": "botafogo",
+      "color": "#000000",
+      "tiktok_gift_id": 5827,
+      "gift_name": "Ice Cream Cone",
+      "gift_icon_url": "https://i.ibb.co/NnVg6cDS/71ba7d4c6eeaef46e5cc11fbf36ba3fa.png",
+      "point_value": 1
+    },
+    {
+      "position": 12,
+      "entity_id": 12,
+      "entity_name": "Grêmio",
+      "slug": "gremio",
+      "color": "#5591CF",
+      "tiktok_gift_id": 19446,
+      "gift_name": "Wink wink",
+      "gift_icon_url": "https://i.ibb.co/Ps9K6sMb/bc1471eff547aa787e5704e9aae615f3.webp",
+      "point_value": 1
+    },
+    {
+      "position": 13,
+      "entity_id": 13,
+      "entity_name": "Vasco",
+      "slug": "vasco",
+      "color": "#000000",
+      "tiktok_gift_id": 19439,
+      "gift_name": "Oldies",
+      "gift_icon_url": "https://i.ibb.co/7NY6SMcr/49734a1d4741786da371341e685df110.webp",
+      "point_value": 1
+    },
+    {
+      "position": 14,
+      "entity_id": 14,
+      "entity_name": "Internacional",
+      "slug": "internacional",
+      "color": "#CC0000",
+      "tiktok_gift_id": 5269,
+      "gift_name": "TikTok",
+      "gift_icon_url": "https://i.ibb.co/CKmn0ggX/94aa2d574cfe6e3893c087cfb5a5efcd.png",
+      "point_value": 1
+    },
+    {
+      "position": 15,
+      "entity_id": 15,
+      "entity_name": "Santos",
+      "slug": "santos",
+      "color": "#000000",
+      "tiktok_gift_id": 19448,
+      "gift_name": "Slow motion",
+      "gift_icon_url": "https://i.ibb.co/B5QcLYYb/763049214b53c3ba4b6f077bf63ed37e.webp",
+      "point_value": 1
+    },
+    {
+      "position": 16,
+      "entity_id": 16,
+      "entity_name": "Corinthians",
+      "slug": "corinthians",
+      "color": "#000000",
+      "tiktok_gift_id": 15231,
+      "gift_name": "Love you so much",
+      "gift_icon_url": "https://i.ibb.co/9k3Tshvn/9e4be53ae69fbb59203f18f95ede626d.webp",
+      "point_value": 1
+    },
+    {
+      "position": 17,
+      "entity_id": 17,
+      "entity_name": "Cruzeiro",
+      "slug": "cruzeiro",
+      "color": "#003087",
+      "tiktok_gift_id": 19445,
+      "gift_name": "Name shoutout",
+      "gift_icon_url": "https://i.ibb.co/5hyZSYLQ/fd78e0b747c785c524b66c1c166758ca.webp",
+      "point_value": 1
+    },
+    {
+      "position": 18,
+      "entity_id": 18,
+      "entity_name": "Remo",
+      "slug": "remo",
+      "color": "#121929",
+      "tiktok_gift_id": 19447,
+      "gift_name": "Overreact",
+      "gift_icon_url": "https://i.ibb.co/1G4GyWwd/f172d4598f4902bd338126795104549e.webp",
+      "point_value": 1
+    },
+    {
+      "position": 19,
+      "entity_id": 19,
+      "entity_name": "Chapecoense",
+      "slug": "chapecoense",
+      "color": "#00913C",
+      "tiktok_gift_id": 19443,
+      "gift_name": "Bravo!",
+      "gift_icon_url": "https://i.ibb.co/WvLJBQyC/5ee7a490d3b37db28865517cbe917ec0.webp",
+      "point_value": 1
+    },
+    {
+      "position": 20,
+      "entity_id": 20,
+      "entity_name": "Mirassol",
+      "slug": "mirassol",
+      "color": "#FFD700",
+      "tiktok_gift_id": 15063,
+      "gift_name": "Journey Pass",
+      "gift_icon_url": "https://i.ibb.co/mrWK8Bp7/bd76c52c4c4601ab84ea01fefa1a8b5e.webp",
+      "point_value": 1
+    }
+  ]
+}
