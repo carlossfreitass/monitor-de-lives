@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "TikTok Ranking Overlay API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "secret_key",
+      "value": "troque-por-uma-chave-segura-aqui"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health"
+      }
+    },
+    {
+      "name": "GET Ranking",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/ranking/?page=1&page_size=20",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ranking",
+            ""
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "page_size",
+              "value": "20"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET Entidade por ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/ranking/1"
+      }
+    },
+    {
+      "name": "GET Gifts",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/gifts/"
+      }
+    },
+    {
+      "name": "GET Gift Map",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/gifts/map"
+      }
+    },
+    {
+      "name": "POST Reset Ranking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Secret-Key",
+            "value": "{{secret_key}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"confirm\": true }"
+        },
+        "url": "{{base_url}}/api/ranking/reset"
+      }
+    }
+  ]
+}
