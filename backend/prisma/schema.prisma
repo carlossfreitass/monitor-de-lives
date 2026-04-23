@@ -14,44 +14,54 @@ model Entity {
   name       String
   slug       String   @unique
   color      String
-  logo_url   String
+  logo_url   String   @default("")
   created_at DateTime @default(now())
 
-  gift       Gift?
+  gift_map   GiftMap[]
   score      Score?
   events     EventLog[]
 }
 
 model Gift {
-  id              Int    @id @default(autoincrement())
-  tiktok_gift_id  Int    @unique
-  name            String
-  icon_url        String
-  point_value     Int    @default(1)
-  entity_id       Int    @unique
+  id             Int     @id @default(autoincrement())
+  tiktok_gift_id Int     @unique
+  name           String
+  icon_url       String  @default("")
+  point_value    Int     @default(1)
 
-  entity          Entity @relation(fields: [entity_id], references: [id])
+  gift_map       GiftMap[]
+}
+
+model GiftMap {
+  id        Int    @id @default(autoincrement())
+  entity_id Int
+  gift_id   Int
+
+  entity    Entity @relation(fields: [entity_id], references: [id])
+  gift      Gift   @relation(fields: [gift_id],   references: [id])
+
+  @@unique([entity_id, gift_id])
 }
 
 model Score {
-  id           Int      @id @default(autoincrement())
-  entity_id    Int      @unique
-  total_score  Int      @default(0)
-  updated_at   DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  entity_id   Int      @unique
+  total_score Int      @default(0)
+  updated_at  DateTime @updatedAt
 
-  entity       Entity   @relation(fields: [entity_id], references: [id])
+  entity      Entity   @relation(fields: [entity_id], references: [id])
 }
 
 model EventLog {
-  id               Int      @id @default(autoincrement())
-  tiktok_gift_id   Int
-  gift_name        String
-  sender_username  String
-  repeat_count     Int      @default(1)
-  entity_id        Int?
-  points_awarded   Int      @default(0)
-  raw_event        String
-  created_at       DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  tiktok_gift_id  Int
+  gift_name       String
+  sender_username String
+  repeat_count    Int      @default(1)
+  entity_id       Int?
+  points_awarded  Int      @default(0)
+  raw_event       String
+  created_at      DateTime @default(now())
 
-  entity           Entity?  @relation(fields: [entity_id], references: [id])
+  entity          Entity?  @relation(fields: [entity_id], references: [id])
 }
