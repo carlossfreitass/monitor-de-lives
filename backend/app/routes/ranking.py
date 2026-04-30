@@ -19,10 +19,6 @@ def get_ranking():
     """
     GET /api/ranking/
     Retorna o ranking atual ordenado por score decrescente.
-
-    Query params:
-        - page      (int, default=1)
-        - page_size (int, default=20, max=20)
     """
     try:
         page      = max(1, int(request.args.get("page", 1)))

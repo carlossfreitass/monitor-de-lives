@@ -15,7 +15,6 @@ def run_async(coro):
 def _check_auth() -> bool:
     """
     Valida o header X-Secret-Key contra a SECRET_KEY do .env.
-    Retorna True se autorizado.
     """
     secret      = os.getenv("SECRET_KEY", "")
     provided    = request.headers.get("X-Secret-Key", "")
@@ -31,20 +30,12 @@ def handle_reset():
     """
     POST /api/ranking/reset
     Zera todos os scores do ranking.
-
-    Headers obrigatórios:
-        X-Secret-Key: <valor do SECRET_KEY no .env>
-
-    Body opcional (JSON):
-        { "confirm": true }   ← segurança extra
     """
-    # 1. Autenticação
     if not _check_auth():
         return jsonify({
             "error": "Não autorizado. Header X-Secret-Key inválido ou ausente."
         }), 401
 
-    # 2. Confirmação no body
     body    = request.get_json(silent=True) or {}
     confirm = body.get("confirm", False)
 
@@ -53,7 +44,6 @@ def handle_reset():
             "error": "Confirmação necessária. Envie { \"confirm\": true } no body."
         }), 400
 
-    # 3. Executa o reset
     try:
         updated = run_async(repo.reset_all_scores())
         return jsonify({

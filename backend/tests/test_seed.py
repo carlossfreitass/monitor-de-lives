@@ -1,5 +1,4 @@
 import pytest
-import asyncio
 from prisma import Prisma
 
 EXPECTED_GIFT_DATA = [
