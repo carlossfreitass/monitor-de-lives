@@ -30,9 +30,3 @@
 - [✅] TikTokLive funciona sem conta logada?
 - [⚠️] Latência do SocketIO em eventos de alta frequência?
 > Se a live for grande, use "buffer" no Python antes de dar o `.emit`.
-
-## 5. Próximos Passos (Fase 2)
-
-- Arquitetura do banco de dados (Prisma + SQL)
-- Estrutura do Flask com Blueprints
-- Primeiro endpoint REST `/api/ranking`

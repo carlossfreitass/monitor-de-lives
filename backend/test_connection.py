@@ -1,8 +1,7 @@
-import asyncio
 from TikTokLive import TikTokLiveClient
 from TikTokLive.events import ConnectEvent, DisconnectEvent, GiftEvent, CommentEvent
 
-TIKTOK_USERNAME = "@hikarimayoficial"
+TIKTOK_USERNAME = "@username_ao_vivo"
 
 client = TikTokLiveClient(unique_id=TIKTOK_USERNAME)
 

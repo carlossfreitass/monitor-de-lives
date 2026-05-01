@@ -10,7 +10,7 @@
     },
     {
       "key": "secret_key",
-      "value": "troque-por-uma-chave-segura-aqui"
+      "value": "ce20462155bcd6dbb57e7f34833bed80"
     }
   ],
   "item": [
@@ -27,23 +27,11 @@
         "method": "GET",
         "url": {
           "raw": "{{base_url}}/api/ranking/?page=1&page_size=20",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "api",
-            "ranking",
-            ""
-          ],
+          "host": ["{{base_url}}"],
+          "path": ["api", "ranking", ""],
           "query": [
-            {
-              "key": "page",
-              "value": "1"
-            },
-            {
-              "key": "page_size",
-              "value": "20"
-            }
+            { "key": "page",      "value": "1" },
+            { "key": "page_size", "value": "20" }
           ]
         }
       }
@@ -74,20 +62,46 @@
       "request": {
         "method": "POST",
         "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "X-Secret-Key",
-            "value": "{{secret_key}}"
-          }
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Secret-Key", "value": "{{secret_key}}" }
         ],
         "body": {
           "mode": "raw",
           "raw": "{ \"confirm\": true }"
         },
         "url": "{{base_url}}/api/ranking/reset"
+      }
+    },
+    {
+      "name": "GET Control Status",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/control/status"
+      }
+    },
+    {
+      "name": "POST Control Start",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Secret-Key", "value": "{{secret_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"username_ao_vivo\" }"
+        },
+        "url": "{{base_url}}/api/control/start"
+      }
+    },
+    {
+      "name": "POST Control Stop",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "X-Secret-Key", "value": "{{secret_key}}" }
+        ],
+        "url": "{{base_url}}/api/control/stop"
       }
     }
   ]

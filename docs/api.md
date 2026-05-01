@@ -147,6 +147,23 @@ Retorna o mapeamento gift → entidade para o frontend.
 
 ---
 
+### `GET /api/control/status`
+Retorna o estado atual do serviço.
+
+**Response 200:**
+```json
+{
+  "connected": true,
+  "username": "@streamer",
+  "retry_count": 0,
+  "last_error": null,
+  "gifts_received": 42,
+  "thread_alive": true
+}
+```
+
+---
+
 ### `POST /api/ranking/reset`
 Zera todos os scores do ranking.
 
@@ -174,6 +191,31 @@ X-Secret-Key: sua-secret-key
 **Response 400:**
 ```json
 { "error": "Confirmação necessária. Envie { \"confirm\": true } no body." }
+```
+
+---
+
+### `POST /api/control/start`
+Inicia a conexão com uma live do TikTok.
+
+**Headers:** `X-Secret-Key`  
+**Body:** `{ "username": "streamer" }`
+
+**Response 200:**
+```json
+{ "success": true, "message": "Serviço iniciado para @streamer.", "username": "@streamer" }
+```
+
+---
+
+### `POST /api/control/stop`
+Encerra a conexão com a live.
+
+**Headers:** `X-Secret-Key`
+
+**Response 200:**
+```json
+{ "success": true, "message": "Serviço encerrado com sucesso." }
 ```
 
 ---
