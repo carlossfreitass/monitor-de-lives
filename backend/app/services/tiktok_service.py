@@ -2,6 +2,9 @@ import threading
 import asyncio
 from typing import Optional
 
+from app.services.score_engine import score_engine
+import json
+
 from TikTokLive import TikTokLiveClient
 from TikTokLive.events import (
     ConnectEvent,
@@ -42,7 +45,7 @@ class TikTokLiveService:
         self.state.last_error = None
         logger.info(f"✅ Monitoramento Ativo: @{event.unique_id}")
         self._emit_socket("connection_status", {"connected": True, "username": self.state.username})
-
+    
     async def _on_disconnect(self, event: DisconnectEvent):
         self.state.connected = False
         logger.warning(f"⚠️ Conexão encerrada com @{self.state.username}.")
@@ -50,39 +53,43 @@ class TikTokLiveService:
 
     async def _on_gift(self, event: GiftEvent):
         try:
+            # Ignora streaks intermediários; processa apenas o evento final
             if event.gift.type == 1 and event.streaking:
-                return 
+                return
 
             quantity = event.repeat_count or 1
             self.state.gifts_received += 1
-            
+
+            # Serializa apenas os campos essenciais para o EventLog
+            raw = json.dumps({
+                "gift_id":      event.gift.id,
+                "gift_name":    event.gift.name,
+                "repeat_count": quantity,
+                "sender":       event.user.unique_id,
+                "streaking":    event.streaking,
+            })
+
             asyncio.create_task(self._process_gift_db(
-                event.gift.id, 
-                event.gift.name, 
-                event.user.unique_id, 
-                quantity
+                gift_id=event.gift.id,
+                gift_name=event.gift.name,
+                sender=event.user.unique_id,
+                qty=quantity,
+                raw_event=raw,
             ))
         except Exception as e:
             logger.error(f"Erro GiftEvent: {e}")
 
-    async def _process_gift_db(self, gift_id, gift_name, sender, qty):
-        try:
-            gift_db = await gift_repo.get_by_tiktok_gift_id(gift_id)
-            if gift_db and gift_db.gift_map:
-                entity = gift_db.gift_map[0].entity
-                points = gift_db.point_value * qty
-                updated = await entity_repo.update_score(entity.id, points)
-                
-                logger.info(f"🎁 {sender} -> {gift_name} (x{qty}) | +{points} pts para {entity.name}")
-                
-                self._emit_socket("score_update", {
-                    "entity_id": entity.id, 
-                    "new_score": updated.total_score, 
-                    "gift_name": gift_name, 
-                    "sender": sender
-                })
-        except Exception as e:
-            logger.error(f"Erro DB Update: {e}")
+    async def _process_gift_db(self, gift_id, gift_name, sender, qty, raw_event):
+        result = await score_engine.process_gift(
+            tiktok_gift_id=gift_id,
+            gift_name=gift_name,
+            sender_username=sender,
+            repeat_count=qty,
+            raw_event=raw_event,
+        )
+
+        if result:
+            self._emit_socket("score_update", result)
 
     def _emit_socket(self, event: str, data: dict):
         if self.socketio:
@@ -92,18 +99,21 @@ class TikTokLiveService:
     def _thread_main(self, username: str):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        
+
         try:
             formatted_username = username if username.startswith('@') else f"@{username}"
             self._client = TikTokLiveClient(unique_id=formatted_username)
+
+            # Carrega o gift_map na memória antes de abrir os handlers
+            loop.run_until_complete(score_engine.load_cache())
 
             self._client.on(ConnectEvent,    self._on_connect)
             self._client.on(DisconnectEvent, self._on_disconnect)
             self._client.on(GiftEvent,       self._on_gift)
             self._client.on(LiveEndEvent,    lambda e: logger.info("📢 Live encerrada."))
-            
+
             self._client.run()
-            
+
         except Exception as e:
             self.state.last_error = str(e)
             logger.error(f"Erro crítico na thread: {e}")

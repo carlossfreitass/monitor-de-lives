@@ -164,6 +164,46 @@ Retorna o estado atual do serviço.
 
 ---
 
+### `GET /api/events/recent`
+Retorna os últimos eventos recebidos. Útil para debug e auditoria ao vivo.
+
+**Query Params:**
+
+| Param | Tipo | Default | Descrição |
+|---|---|---|---|
+| limit | int | 50 | Máx. 200 eventos |
+
+**Response 200:**
+```json
+{
+  "data": [
+    {
+      "id": 42,
+      "tiktok_gift_id": 5655,
+      "gift_name": "Rose",
+      "sender": "fan123",
+      "repeat_count": 3,
+      "points_awarded": 3,
+      "entity_id": 2,
+      "entity_name": "Flamengo",
+      "created_at": "2026-05-09T20:15:30.000Z"
+    }
+  ],
+  "meta": {
+    "returned": 1,
+    "total": 1,
+    "limit": 50
+  }
+}
+```
+
+---
+
+### `GET /api/events/cache`
+Retorna snapshot do cache em memória do ScoreEngine.
+
+---
+
 ### `POST /api/ranking/reset`
 Zera todos os scores do ranking.
 
@@ -217,6 +257,11 @@ Encerra a conexão com a live.
 ```json
 { "success": true, "message": "Serviço encerrado com sucesso." }
 ```
+
+---
+
+### `POST /api/events/cache/reload`
+Força recarregamento do gift_map sem reiniciar o servidor.
 
 ---
 

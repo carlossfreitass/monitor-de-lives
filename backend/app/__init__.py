@@ -17,10 +17,12 @@ def create_app():
     from app.routes.ranking import ranking_bp
     from app.routes.gifts   import gifts_bp
     from app.routes.control import control_bp
+    from app.routes.events import events_bp
 
     app.register_blueprint(ranking_bp, url_prefix="/api/ranking")
     app.register_blueprint(gifts_bp,   url_prefix="/api/gifts")
     app.register_blueprint(control_bp, url_prefix="/api/control")
+    app.register_blueprint(events_bp,  url_prefix="/api/events")
 
     # Health check
     @app.route("/health")

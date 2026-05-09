@@ -10,99 +10,167 @@
     },
     {
       "key": "secret_key",
-      "value": "ce20462155bcd6dbb57e7f34833bed80"
+      "value": "troque-por-uma-chave-segura-aqui"
     }
   ],
   "item": [
     {
-      "name": "Health Check",
-      "request": {
-        "method": "GET",
-        "url": "{{base_url}}/health"
-      }
-    },
-    {
-      "name": "GET Ranking",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{base_url}}/api/ranking/?page=1&page_size=20",
-          "host": ["{{base_url}}"],
-          "path": ["api", "ranking", ""],
-          "query": [
-            { "key": "page",      "value": "1" },
-            { "key": "page_size", "value": "20" }
-          ]
+      "name": "🟢 Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/health"
+          }
         }
-      }
+      ]
     },
     {
-      "name": "GET Entidade por ID",
-      "request": {
-        "method": "GET",
-        "url": "{{base_url}}/api/ranking/1"
-      }
-    },
-    {
-      "name": "GET Gifts",
-      "request": {
-        "method": "GET",
-        "url": "{{base_url}}/api/gifts/"
-      }
-    },
-    {
-      "name": "GET Gift Map",
-      "request": {
-        "method": "GET",
-        "url": "{{base_url}}/api/gifts/map"
-      }
-    },
-    {
-      "name": "POST Reset Ranking",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "X-Secret-Key", "value": "{{secret_key}}" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"confirm\": true }"
+      "name": "🏆 Ranking",
+      "item": [
+        {
+          "name": "GET Ranking (página 1)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/ranking/?page=1&page_size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ranking", ""],
+              "query": [
+                { "key": "page",      "value": "1" },
+                { "key": "page_size", "value": "20" }
+              ]
+            }
+          }
         },
-        "url": "{{base_url}}/api/ranking/reset"
-      }
-    },
-    {
-      "name": "GET Control Status",
-      "request": {
-        "method": "GET",
-        "url": "{{base_url}}/api/control/status"
-      }
-    },
-    {
-      "name": "POST Control Start",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "X-Secret-Key", "value": "{{secret_key}}" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"username\": \"username_ao_vivo\" }"
+        {
+          "name": "GET Entidade por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/ranking/1"
+          }
         },
-        "url": "{{base_url}}/api/control/start"
-      }
+        {
+          "name": "POST Reset Ranking",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Secret-Key", "value": "{{secret_key}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"confirm\": true }"
+            },
+            "url": "{{base_url}}/api/ranking/reset"
+          }
+        }
+      ]
     },
     {
-      "name": "POST Control Stop",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "X-Secret-Key", "value": "{{secret_key}}" }
-        ],
-        "url": "{{base_url}}/api/control/stop"
-      }
+      "name": "🎁 Gifts",
+      "item": [
+        {
+          "name": "GET Todos os Gifts",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/gifts/"
+          }
+        },
+        {
+          "name": "GET Gift Map",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/gifts/map"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎮 Control",
+      "item": [
+        {
+          "name": "GET Status",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/control/status"
+          }
+        },
+        {
+          "name": "POST Start Live",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Secret-Key", "value": "{{secret_key}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"username\": \"username_ao_vivo\" }"
+            },
+            "url": "{{base_url}}/api/control/start"
+          }
+        },
+        {
+          "name": "POST Stop Live",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-Secret-Key", "value": "{{secret_key}}" }
+            ],
+            "url": "{{base_url}}/api/control/stop"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 Events",
+      "item": [
+        {
+          "name": "GET Eventos Recentes (últimos 50)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/events/recent?limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "events", "recent"],
+              "query": [
+                { "key": "limit", "value": "50" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Eventos Recentes (últimos 10)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/events/recent?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "events", "recent"],
+              "query": [
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Cache Status (ScoreEngine)",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/events/cache"
+          }
+        },
+        {
+          "name": "POST Reload Cache",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{base_url}}/api/events/cache/reload"
+          }
+        }
+      ]
     }
   ]
 }
