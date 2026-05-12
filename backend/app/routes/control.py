@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.services.tiktok_service import tiktok_service
+from app.sockets.ranking_namespace import ranking_namespace
 import os, hmac
 
 control_bp = Blueprint("control", __name__)
@@ -24,15 +25,20 @@ def start_live():
     username = body.get("username", "").strip()
 
     if not username:
+        ranking_namespace.emit_error_alert(
+            code="INVALID_USERNAME",
+            message="Username não informado na requisição de start.",
+        )
         return jsonify({"error": "Campo 'username' é obrigatório."}), 400
-
-    # Injeta o socketio no serviço na primeira chamada
-    if tiktok_service.socketio is None:
-        from app import socketio
-        tiktok_service.socketio = socketio
 
     result = tiktok_service.start(username)
     status = 200 if result["success"] else 409
+
+    if not result["success"]:
+        ranking_namespace.emit_error_alert(
+            code="START_FAILED",
+            message=result["message"],
+        )
 
     return jsonify(result), status
 
@@ -47,6 +53,14 @@ def stop_live():
 
     result = tiktok_service.stop()
     status = 200 if result["success"] else 409
+
+    if result["success"]:
+        ranking_namespace.emit_live_status(connected=False, username=None)
+    else:
+        ranking_namespace.emit_error_alert(
+            code="STOP_FAILED",
+            message=result["message"],
+        )
 
     return jsonify(result), status
 

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>SocketIO Test — Ranking</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+  <style>
+    body { font-family: monospace; background: #0f0f0f; color: #e0e0e0; padding: 20px; }
+    h2   { color: #7DF9AA; }
+    #log { background: #1a1a1a; border: 1px solid #333; padding: 12px;
+            height: 500px; overflow-y: auto; border-radius: 6px; }
+    .ts      { color: #666; }
+    .connect { color: #7DF9AA; }
+    .score   { color: #60C5FA; }
+    .status  { color: #F5A623; }
+    .error   { color: #FF5C5C; }
+    .info    { color: #aaa; }
+    button   { margin: 4px; padding: 8px 14px; background: #222;
+                color: #e0e0e0; border: 1px solid #555;
+                border-radius: 4px; cursor: pointer; }
+    button:hover { background: #333; }
+    #status-badge { display: inline-block; padding: 4px 10px;
+                    border-radius: 12px; font-size: 12px;
+                    background: #333; margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>🔌 SocketIO Test Client <span id="status-badge">desconectado</span></h2>
+
+<div>
+  <button onclick="clearLog()">🗑 Limpar log</button>
+  <button onclick="socket.emit('ping')">📡 Ping</button>
+  <button onclick="startLive()">▶️ Start Live</button>
+  <button onclick="stopLive()">⏹ Stop Live</button>
+</div>
+<br>
+
+<div id="log"></div>
+
+<script>
+  const SERVER_URL      = "http://localhost:5000";
+  const NAMESPACE       = "/ranking";
+  const TIKTOK_USERNAME = "username_da_live";
+  const SECRET_KEY      = "your-secret-key-here";
+  const RETRY_DELAY_MS  = 2000;
+  const MAX_RETRIES     = 5;
+
+  let retryCount = 0;
+
+  const socket = io(SERVER_URL + NAMESPACE, {
+    transports: ["polling", "websocket"],
+    reconnection: true,
+    reconnectionDelay: 2000,
+  });
+
+  const log   = document.getElementById("log");
+  const badge = document.getElementById("status-badge");
+
+  // Utilitários
+  function ts() {
+    return new Date().toLocaleTimeString("pt-BR");
+  }
+
+  function addLine(cls, label, data) {
+    const line = document.createElement("div");
+    const payload = typeof data === "object"
+      ? JSON.stringify(data, null, 2)
+      : data;
+    line.innerHTML =
+      `<span class="ts">[${ts()}]</span> ` +
+      `<span class="${cls}">[${label}]</span> ` +
+      `<pre style="display:inline;white-space:pre-wrap">${payload}</pre>`;
+    log.prepend(line);
+  }
+
+  function clearLog() {
+    log.innerHTML = "";
+  }
+
+  // Controle da Live
+  function startLive(isRetry = false) {
+    if (isRetry) {
+      if (retryCount >= MAX_RETRIES) {
+        addLine("error", "RETRY", `Máximo de ${MAX_RETRIES} tentativas atingido. Desistindo.`);
+        retryCount = 0;
+        return;
+      }
+      retryCount++;
+      addLine("info", "RETRY", `Tentativa ${retryCount}/${MAX_RETRIES} em ${RETRY_DELAY_MS}ms...`);
+    } else {
+      retryCount = 0;
+      addLine("info", "START", `Iniciando monitoramento de @${TIKTOK_USERNAME}...`);
+    }
+
+    setTimeout(() => {
+      fetch(`${SERVER_URL}/api/control/start`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Secret-Key": SECRET_KEY,
+        },
+        body: JSON.stringify({ username: TIKTOK_USERNAME }),
+      })
+      .then(r => r.json())
+      .then(d => addLine("info", "START_RESULT", d))
+      .catch(e => addLine("error", "START_ERROR", e.message));
+    }, isRetry ? RETRY_DELAY_MS : 0);
+  }
+
+  function stopLive() {
+    retryCount = MAX_RETRIES;
+    addLine("info", "STOP", "Encerrando monitoramento...");
+
+    fetch(`${SERVER_URL}/api/control/stop`, {
+      method: "POST",
+      headers: { "X-Secret-Key": SECRET_KEY },
+    })
+    .then(r => r.json())
+    .then(d => addLine("info", "STOP_RESULT", d))
+    .catch(e => addLine("error", "STOP_ERROR", e.message));
+  }
+
+  // Eventos de Conexão
+  socket.on("connect", () => {
+    badge.textContent = "conectado";
+    badge.style.background = "#1a4a2a";
+    badge.style.color = "#7DF9AA";
+    addLine("connect", "CONNECT", `socket_id=${socket.id}`);
+  });
+
+  socket.on("disconnect", (reason) => {
+    badge.textContent = "desconectado";
+    badge.style.background = "#333";
+    badge.style.color = "#e0e0e0";
+    addLine("error", "DISCONNECT", reason);
+  });
+
+  socket.on("connect_error", (err) => {
+    addLine("error", "CONNECT_ERROR", err.message);
+  });
+
+  // Eventos do Servidor
+  socket.on("ranking_update", (data) => {
+    addLine("score", "ranking_update", data);
+  });
+
+  socket.on("live_status", (data) => {
+    addLine("status", "live_status", data);
+
+    if (data.connected) {
+      retryCount = 0;
+    }
+  });
+
+  socket.on("error_alert", (data) => {
+    addLine("error", "error_alert", data);
+
+    if (data.code === "THREAD_ERROR") {
+      startLive(true);
+    }
+  });
+
+  addLine("info", "INIT", `Conectando ao namespace ${NAMESPACE}...`);
+</script>
+</body>
+</html>
